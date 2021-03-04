@@ -6,5 +6,5 @@ fsl_gpio.h:223:24:GPIO_PinRead	16	static
 tcp-client.c:31:14:send	40	static
 tcp-client.c:38:14:receive	32	static
 tcp-client.c:56:13:manage_tcp	64	static
-tcp-client.c:109:6:PORTA_IRQHandler	16	static
-tcp-client.c:119:5:main	56	static
+tcp-client.c:116:6:PORTA_IRQHandler	16	static
+tcp-client.c:126:5:main	56	static

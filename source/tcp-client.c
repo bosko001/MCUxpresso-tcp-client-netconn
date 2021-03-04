@@ -84,14 +84,16 @@ static void manage_tcp(void* param)
 				char buf[32];
 				memset(buf, 0, 32);
 
-	//			err_t err;
-
 				PRINTF("Client - Sending: %s\r\n", msg);
 				err = send(conn, msg, strlen(msg));
-				HANDLE_ERROR(err != ERR_OK, PRINTF("Client - Error occurred while sending data: %d\r\n", err));
+				if (err != ERR_OK) {
+					goto CONNECTION_ERROR;
+				}
 
 				err = receive(conn, buf);
-				HANDLE_ERROR(err != ERR_OK, PRINTF("Client - Error occurred while receiving data: %d\r\n", err));
+				if (err != ERR_OK) {
+					goto CONNECTION_ERROR;
+				}
 
 				if (!memcmp(buf, "Client - LED ON", strlen(buf))) {
 					LED_BLUE_ON();
@@ -101,6 +103,11 @@ static void manage_tcp(void* param)
 
 			}
 		}
+
+	CONNECTION_ERROR:
+		netconn_close(conn);
+		netconn_delete(conn);
+
 		conn = netconn_new(NETCONN_TCP);
 		assert(conn != NULL);
 	}
